@@ -36,6 +36,26 @@ def apply_func_line(line, func):
     assert np.ndim(line) == 1
     return [func(x).evalf() for x in line]
 
+def plot_lines(lines, color='#269df2', fig_size=(5,5), title=None):
+    """plots lines in complelx plane."""
+
+    lines = np.array(lines)
+    tuple_lines = cmplx_lines_to_tuples(lines)
+
+    fig, ax = plt.subplots()
+    fig.set_size_inches(fig_size)
+
+    for line in tuple_lines:
+        x, y = zip(*line)
+        ax.plot(x, y, color=color)
+    if title is not None: ax.set_title(title)
+    ax.set_xlabel('Re')
+    ax.set_ylabel('Im')
+    ax.set_aspect('equal')
+
+    return fig
+
+
 def plot_map(lines_in, func, color='#269df2', fig_size=(10,5)):
     """
     given an input space, plots the input space and output space of a complex function.
@@ -56,24 +76,24 @@ def plot_map(lines_in, func, color='#269df2', fig_size=(10,5)):
     tuple_lines_out = cmplx_lines_to_tuples(lines_out)
 
     fig, (ax1, ax2) = plt.subplots(1, 2)
-    fig.set_size_inches([10, 5])
+    fig.set_size_inches(fig_size)
 
 
     for line_in in tuple_lines_in:
-        ax1.set_title('Input Space')
-        ax1.set_xlabel('Re')
-        ax1.set_ylabel('Im')
-
         x, y = zip(*line_in)
         ax1.plot(x, y, color=color)
+    ax1.set_title('Input Space')
+    ax1.set_xlabel('Re')
+    ax1.set_ylabel('Im')
+    ax1.set_aspect('equal')
 
     for line_out in tuple_lines_out:
-        ax2.set_title('Output Space')
-        ax2.set_xlabel('Re')
-        ax2.set_ylabel('Im')
-
         x, y = zip(*line_out)
         ax2.plot(x, y, color=color)
+    ax2.set_title('Output Space')
+    ax2.set_xlabel('Re')
+    ax2.set_ylabel('Im')
+    ax2.set_aspect('equal')
 
     return fig
 
